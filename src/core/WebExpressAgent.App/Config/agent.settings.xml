@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" debug="false" >
+  <website>
+    <name>TurtleBay</name>
+    <url>http://turtlebay</url>
+    <icon>Assets/img/Favicon.png</icon>
+    <status>status</status>
+  </website>
+  <website>
+    <name>Wallbox</name>
+    <url>http://mtwb</url>
+    <icon>Assets/img/Favicon.png</icon>
+    <status></status>
+  </website>
+</settings>
