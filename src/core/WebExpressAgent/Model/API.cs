@@ -53,6 +53,11 @@ namespace Agent.Model
         public string Time { get; set; }
 
         /// <summary>
+        /// Liefert oder setzt die Version des HttpServers
+        /// </summary>
+        public string HttpServerVersion { get; set; }
+
+        /// <summary>
         /// Liefert oder setzt die Plugins
         /// </summary>
         public IEnumerable<Plugin> Plugins { get; set; } = new List<Plugin>();
