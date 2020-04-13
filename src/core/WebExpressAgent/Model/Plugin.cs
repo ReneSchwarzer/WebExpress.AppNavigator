@@ -20,5 +20,10 @@ namespace WebExpressAgent.Model
         /// Liefert oder setzt die IconUrl
         /// </summary>
         public string IconUrl { get; set; }
+
+        /// <summary>
+        /// Liefert oder setzt die Version des Plugins
+        /// </summary>
+        public string Version { get; set; }
     }
 }

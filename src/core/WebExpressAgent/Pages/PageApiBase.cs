@@ -47,13 +47,15 @@ namespace Agent.Pages
             var os = RuntimeInformation.OSDescription;
             var framework = RuntimeInformation.FrameworkDescription;
             var time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss:ms");
+            var version = Context.HttpServerVersion;
             var plugins = WebExpress.HttpServer.Context.Plugins.Select
             (
                 x => new Plugin()
                 {
                     Name = x.Name,
                     BasisUrl = x.UrlBasePath,
-                    IconUrl = x.IconUrl
+                    IconUrl = x.IconUrl,
+                    Version = x.Version
                 }
             );
 
