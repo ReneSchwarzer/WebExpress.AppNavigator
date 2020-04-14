@@ -55,7 +55,8 @@ namespace Agent.Pages
                     Name = x.Name,
                     BasisUrl = x.UrlBasePath,
                     IconUrl = x.IconUrl,
-                    Version = x.Version
+                    Version = x.Version,
+                    AssetUrl = x.AssetBaseFolder
                 }
             );
 
