@@ -61,5 +61,5 @@ namespace Agent.Model
         /// Liefert oder setzt die Plugins
         /// </summary>
         public IEnumerable<Plugin> Plugins { get; set; } = new List<Plugin>();
-    }
+}
 }
