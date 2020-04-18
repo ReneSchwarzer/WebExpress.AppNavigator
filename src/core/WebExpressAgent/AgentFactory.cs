@@ -1,5 +1,4 @@
-﻿using System;
-using WebExpress;
+﻿using WebExpress;
 using WebExpress.Plugins;
 
 namespace Agent
@@ -20,7 +19,7 @@ namespace Agent
         public override IPlugin Create(HttpServerContext context, string configFileName)
         {
             var plugin = Create<AgentPlugin>(context, configFileName);
-            
+
             return plugin;
         }
     }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using WebExpressAgent.Model;
 
 namespace Agent.Model
@@ -61,5 +59,5 @@ namespace Agent.Model
         /// Liefert oder setzt die Plugins
         /// </summary>
         public IEnumerable<Plugin> Plugins { get; set; } = new List<Plugin>();
-}
+    }
 }

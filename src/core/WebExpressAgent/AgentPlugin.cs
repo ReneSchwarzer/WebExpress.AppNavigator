@@ -30,11 +30,14 @@ namespace Agent
             ViewModel.Instance.Init();
             Context.Log.Info(MethodBase.GetCurrentMethod(), "Agent Plugin initialisierung");
 
-            Register(new WorkerFile(new Path(Context, "", "Assets/.*"), Context.AssetBaseFolder));
+            var siteMap = new SiteMap(Context);
 
-            var root = new VariationPath(Context, "api", new PathItem("API"));
-            root.GetUrls("API").ForEach(x => Register(new WorkerPage<PageApiBase>(x) { }));
-    
+            siteMap.AddPage("Api", "", (x) => { return new WorkerPage<PageApiBase>(x); });
+            siteMap.AddPath("Api");
+
+            Register(siteMap);
+            // Register(new WorkerFile(new Path(Context, "", "Assets/.*"), Context.AssetBaseFolder));
+
             Task.Run(() => { Run(); });
         }
 
