@@ -1,22 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using WebExpress.Agent.Model;
-using WebExpress.Application;
 using WebExpress.Attribute;
-using WebExpress.Html;
 using WebExpress.UI.Attribute;
 using WebExpress.UI.Component;
 using WebExpress.UI.WebControl;
 using WebExpress.Uri;
 using WebExpress.WebApp.Components;
-using WebExpress.WebApp.WebResource;
 
 namespace WebExpress.Agent.WebControl
 {
     [Section(Section.AppPrimary)]
     [Application("*")]
     [Context("general")]
-    public sealed class ControlApplications : IComponentMulti
+    public sealed class ControlApplications : IComponentDynamic
     {
         /// <summary>
         /// Konstruktor
