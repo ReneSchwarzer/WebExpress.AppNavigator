@@ -5,7 +5,7 @@ using WebExpress.Plugin;
 
 namespace WebExpress.Agent
 {
-    [ID("webexpress.agent")]
+    [ID("WebExpress.Agent")]
     [Name("plugin.name")]
     [Description("plugin.description")]
     [Icon("/assets/img/Agent.png")]
@@ -24,6 +24,7 @@ namespace WebExpress.Agent
         /// <param name="context">Der Kontext, welcher für die Ausführung des Plugins gilt</param>
         public void Initialization(IPluginContext context)
         {
+            ViewModel.Instance.Context = context;
             ViewModel.Instance.Initialization();
         }
 
@@ -39,21 +40,13 @@ namespace WebExpress.Agent
             {
                 try
                 {
-                    Update();
+                    ViewModel.Instance.Update();
                 }
                 finally
                 {
                     Thread.Sleep(60000);
                 }
             }
-        }
-
-        /// <summary>
-        /// Diese Methode wird aufgerufen, nachdem das Fenster aktiv ist.
-        /// </summary>
-        private void Update()
-        {
-            ViewModel.Instance.Update();
         }
 
         /// <summary>

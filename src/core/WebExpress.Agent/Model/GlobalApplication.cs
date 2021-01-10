@@ -1,11 +1,18 @@
-﻿namespace WebExpress.Agent.Model
+﻿using System;
+
+namespace WebExpress.Agent.Model
 {
-    public class Application
+    public class GlobalApplication
     {
         /// <summary>
         /// Liefert oder setzt den Namen
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Liefert oder setzt die Host-URL
+        /// </summary>
+        public string Host { get; set; }
 
         /// <summary>
         /// Liefert oder setzt die BasisUrl
@@ -26,5 +33,19 @@
         /// Liefert oder setzt den Asset-Pfad
         /// </summary>
         public string AssetPath { get; set; }
+
+        /// <summary>
+        /// Liefert oder setzt den Zeitstempel des letzten Zugriffs
+        /// </summary>
+        public DateTime Timestamp { get; set; }
+
+        /// <summary>
+        /// Umwandlung des Objektes in seine Stringform
+        /// </summary>
+        /// <returns>Das Objekt in Stringform</returns>
+        public override string ToString()
+        {
+            return $"{Host}{ContextPath}";
+        }
     }
 }

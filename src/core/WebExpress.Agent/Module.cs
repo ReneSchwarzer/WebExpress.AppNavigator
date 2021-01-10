@@ -8,8 +8,8 @@ using WebExpress.Module;
 
 namespace WebExpress.Agent
 {
-    [ID("webexpress.agent")]
-    [Application("webexpress.agent")]
+    [ID("WebExpress.Agent")]
+    [Application("WebExpress.Agent")]
     public sealed class Module : IModule
     {
         /// <summary>

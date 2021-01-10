@@ -15,6 +15,11 @@ namespace WebExpress.Agent.Model
         public IEnumerable<string> HostAdresses { get; set; }
 
         /// <summary>
+        /// Liefert oder setzt den Port
+        /// </summary>
+        public int HostPort { get; set; }
+
+        /// <summary>
         /// Liefert oder setzt den Computernamen
         /// </summary>
         public string MachineName { get; set; }
@@ -57,6 +62,6 @@ namespace WebExpress.Agent.Model
         /// <summary>
         /// Liefert oder setzt die Anwendungen
         /// </summary>
-        public IEnumerable<Model.Application> Applications { get; set; } = new List<Model.Application>();
+        public IEnumerable<GlobalApplication> Applications { get; set; } = new List<GlobalApplication>();
     }
 }

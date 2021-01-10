@@ -3,7 +3,8 @@ using WebExpress.Attribute;
 
 namespace WebExpress.Agent
 {
-    [ID("Webexpress.agent")]
+    [ID("WebExpress.Agent")]
+    [ContextPath("agent")]
     public sealed class Application : IApplication
     {
         /// <summary>

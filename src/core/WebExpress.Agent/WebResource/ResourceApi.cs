@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using WebExpress.Agent.Model;
-using WebExpress.Application;
+using WebExpress.Attribute;
 using WebExpress.Plugin;
-using WebExpress.WebResource;
 
 namespace WebExpress.Agent.WebResource
 {
-    public sealed class PageApiBase : ResourceApi
+    [ID("API")]
+    [Segment("")]
+    [Path("")]
+    [Module("WebExpress.Agent")]
+    public sealed class ResourceApi : WebExpress.WebResource.ResourceApi
     {
         /// <summary>
         /// Konstruktor
         /// </summary>
-        public PageApiBase()
+        public ResourceApi()
             : base()
         {
         }
@@ -36,10 +38,39 @@ namespace WebExpress.Agent.WebResource
         {
             base.Process();
 
+            // Anfrage 
+            if (Request.Content != null)
+            {
+                var client = JsonSerializer.Deserialize(Request.Content, typeof(API)) as API;
+
+                foreach (var application in client.Applications)
+                {
+                    if (!ViewModel.Instance.ApplicationDictionary.ContainsKey(application.ToString()))
+                    {
+                        ViewModel.Instance.ApplicationDictionary.Add(application.ToString(), new GlobalApplication()
+                        {
+                            Host = $"{client.HostName}{(client.HostPort != 80 ? ":80" : "")}",
+                            Name = application.Name,
+                            Icon = application.Name,
+                            ContextPath = application.ContextPath,
+                            AssetPath = application.AssetPath,
+                            Version = application.Version,
+                            Timestamp = DateTime.Now
+                        });
+                    }
+                    else
+                    {
+                        ViewModel.Instance.ApplicationDictionary[application.ToString()].Timestamp = DateTime.Now;
+                    }
+                }
+            }
+
             //var converter = new TimeSpanConverter();
+            var plugin = PluginManager.GetPlugin(Context.PluginID);
 
             var hostName = Dns.GetHostName();
             var hostAdresses = Dns.GetHostAddresses(hostName).Select(x => x.ToString()).ToList();
+            var hostPort = plugin.Host.Port;
             var osVersion = Environment.OSVersion.ToString();
             var machineName = Environment.MachineName;
             var processorCount = Environment.ProcessorCount;
@@ -48,17 +79,7 @@ namespace WebExpress.Agent.WebResource
             var framework = RuntimeInformation.FrameworkDescription;
             var time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss:ms");
             var version = PluginManager.Context.Version;
-            var applications = ApplicationManager.GetApplcations().Select
-            (
-                x => new Model.Application()
-                {
-                    Name = x.ApplicationName,
-                    ContextPath = x.ContextPath?.ToString(),
-                    Icon = x.Icon?.ToString(),
-                    Version = x.Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion,
-                    AssetPath = x.AssetPath
-                }
-            );
+            var applications = ViewModel.Instance.ApplicationDictionary.Values;
 
             var api = new API()
             {
@@ -71,7 +92,7 @@ namespace WebExpress.Agent.WebResource
                 OS = os,
                 Framework = framework,
                 Time = time,
-                Applications = applications,
+                Applications = applications
             };
 
             var options = new JsonSerializerOptions

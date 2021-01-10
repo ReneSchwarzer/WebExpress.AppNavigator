@@ -40,9 +40,13 @@ namespace WebExpress.Agent.WebControl
         {
             var list = new List<IControl>();
 
-            foreach (var v in ViewModel.Instance.Applications)
+            foreach (var v in ViewModel.Instance.GlobalApplications.OrderBy(x => x.Name))
             {
-                list.Add(new ControlDropdownItemLink() { Text = v.Name, Uri = new UriRelative(v.ContextPath) });
+                list.Add(new ControlDropdownItemLink() 
+                { 
+                    Text = v.Name, 
+                    Uri = new UriAbsolute(UriScheme.Http, new UriAuthority(v.Host), new UriRelative(v.ContextPath)) 
+                });
             }
 
             return list.Select(x => (T)x);
