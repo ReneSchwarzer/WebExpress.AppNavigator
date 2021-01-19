@@ -150,18 +150,26 @@ namespace WebExpress.Agent.Model
                 })
             };
 
-            var json = JsonSerializer.Serialize(api, options);
-
-            request.Content = new StringContent(json);
-            request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
-
-            var response = Client.Send(request);
-            if (response.StatusCode == HttpStatusCode.OK)
+            try
             {
-                var global = response.Content.ReadFromJsonAsync(typeof(API)).Result as API;
+                var json = JsonSerializer.Serialize(api, options);
 
-                GlobalApplications.Clear();
-                GlobalApplications.AddRange(global.Applications);
+                request.Content = new StringContent(json);
+                request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
+
+                var response = Client.Send(request);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var global = response.Content.ReadFromJsonAsync(typeof(API)).Result as API;
+
+                    GlobalApplications.Clear();
+                    GlobalApplications.AddRange(global.Applications);
+                }
+
+            } 
+            catch
+            {
+
             }
 
             // Bereinige alte Anwendungen
