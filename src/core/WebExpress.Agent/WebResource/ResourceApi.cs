@@ -67,9 +67,6 @@ namespace WebExpress.Agent.WebResource
                 }
             }
 
-            //var converter = new TimeSpanConverter();
-            var plugin = PluginManager.GetPlugin(Context.PluginID);
-
             var hostName = Dns.GetHostName();
             var hostAdresses = Dns.GetHostAddresses(hostName).Select(x => x.ToString()).ToList();
             var hostPort = plugin.Host.Port;
