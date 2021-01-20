@@ -38,6 +38,8 @@ namespace WebExpress.Agent.WebResource
         {
             base.Process();
 
+            var plugin = PluginManager.GetPlugin(Context.PluginID);
+
             // Anfrage 
             if (Request.Content != null)
             {
@@ -49,9 +51,9 @@ namespace WebExpress.Agent.WebResource
                     {
                         ViewModel.Instance.ApplicationDictionary.Add(application.ToString(), new GlobalApplication()
                         {
-                            Host = $"{client.HostName}{(client.HostPort != 80 ? ":80" : "")}",
+                            Host = plugin.Host.Uri.ToString(),
                             Name = application.Name,
-                            Icon = application.Name,
+                            Icon = application.Icon,
                             ContextPath = application.ContextPath,
                             AssetPath = application.AssetPath,
                             Version = application.Version,
