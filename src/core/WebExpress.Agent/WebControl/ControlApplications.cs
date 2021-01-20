@@ -22,14 +22,6 @@ namespace WebExpress.Agent.WebControl
         public ControlApplications()
             : base()
         {
-            Init();
-        }
-
-        /// <summary>
-        /// Initialisierung
-        /// </summary>
-        private void Init()
-        {
         }
 
         /// <summary>
@@ -45,8 +37,8 @@ namespace WebExpress.Agent.WebControl
                 list.Add(new ControlDropdownItemLink() 
                 { 
                     Text = v.Name, 
-                    Icon = string.IsNullOrWhiteSpace(v.Icon) ? null : new PropertyIcon(new UriAbsolute("http://" + v.Icon)),
-                    Uri = new UriAbsolute(UriScheme.Http, new UriAuthority(v.Host), new UriRelative(v.ContextPath)) 
+                    Icon = string.IsNullOrWhiteSpace(v.Icon) ? null : new PropertyIcon(new UriAbsolute(v.Icon)),
+                    Uri = new UriAbsolute(v.Host).Append(v.ContextPath) 
                 });
             }
 

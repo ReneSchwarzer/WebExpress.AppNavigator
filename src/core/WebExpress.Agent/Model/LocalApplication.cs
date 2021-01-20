@@ -1,4 +1,6 @@
-﻿namespace WebExpress.Agent.Model
+﻿using WebExpress.Uri;
+
+namespace WebExpress.Agent.Model
 {
     public class LocalApplication
     {
@@ -15,7 +17,7 @@
         /// <summary>
         /// Liefert oder setzt die Icon
         /// </summary>
-        public string Icon { get; set; }
+        public IUri Icon { get; set; }
 
         /// <summary>
         /// Liefert oder setzt die Version des Plugins

@@ -13,6 +13,7 @@ using System.Xml.Serialization;
 using WebExpress.Application;
 using WebExpress.Internationalization;
 using WebExpress.Plugin;
+using WebExpress.Uri;
 
 namespace WebExpress.Agent.Model
 {
@@ -42,7 +43,7 @@ namespace WebExpress.Agent.Model
         /// <summary>
         /// Liefert die aktuelle Zeit
         /// </summary>
-        public string Now => DateTime.Now.ToString("dd.MM.yyyy<br>HH:mm:ss");
+        public static string Now => DateTime.Now.ToString("dd.MM.yyyy<br>HH:mm:ss");
 
         /// <summary>
         /// Liefert oder setzt den Verweis auf den Kontext des Plugins
@@ -53,7 +54,7 @@ namespace WebExpress.Agent.Model
         /// Liefert die Programmversion
         /// </summary>
         [XmlIgnore]
-        public string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         /// <summary>
         /// Liefert oder setzt die lokal verfügbaren Anwendungen
@@ -99,7 +100,7 @@ namespace WebExpress.Agent.Model
                 LocalApplications.Add(new LocalApplication
                 {
                     Name = InternationalizationManager.I18N(InternationalizationManager.DefaultCulture, v.PluginID, v.ApplicationName),
-                    Icon = v.Icon.ToString(),
+                    Icon = Context.Host.Uri.Append(v.Icon.ToString()),
                     ContextPath = v.ContextPath?.ToString(),
                     AssetPath = v.AssetPath
                 });
@@ -141,9 +142,9 @@ namespace WebExpress.Agent.Model
                 Time = time,
                 Applications = applications.Select(x => new GlobalApplication()
                 {
-                    Host = "",
+                    Host = Context.Host.Uri?.ToString(),
                     Name = x.Name,
-                    Icon = x.Icon,
+                    Icon = x.Icon.ToString(),
                     AssetPath = x.AssetPath,
                     ContextPath = x.ContextPath,
                     Version = x.Version
