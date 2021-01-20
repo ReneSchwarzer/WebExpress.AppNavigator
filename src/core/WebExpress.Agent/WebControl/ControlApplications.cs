@@ -37,7 +37,7 @@ namespace WebExpress.Agent.WebControl
                 list.Add(new ControlDropdownItemLink() 
                 { 
                     Text = v.Name, 
-                    Icon = string.IsNullOrWhiteSpace(v.Icon) ? null : new PropertyIcon(new UriAbsolute(v.Icon)),
+                    Icon = string.IsNullOrWhiteSpace(v.Icon) ? null : new PropertyIcon(new UriAbsolute(v.Icon), new PropertySizeIcon(24, TypeSizeUnit.Pixel)),
                     Uri = new UriAbsolute(v.Host).Append(v.ContextPath) 
                 });
             }
