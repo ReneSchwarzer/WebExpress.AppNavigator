@@ -51,7 +51,7 @@ namespace WebExpress.Agent.WebResource
                     {
                         ViewModel.Instance.ApplicationDictionary.Add(application.ToString(), new GlobalApplication()
                         {
-                            Host = plugin.Host.Uri.ToString(),
+                            Host = application.Host,
                             Name = application.Name,
                             Icon = application.Icon,
                             ContextPath = application.ContextPath,
