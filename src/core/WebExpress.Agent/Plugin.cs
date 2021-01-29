@@ -33,7 +33,7 @@ namespace WebExpress.Agent
         /// </summary>
         public void Run()
         {
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
+            Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
             // Loop
             while (true)
@@ -44,7 +44,7 @@ namespace WebExpress.Agent
                 }
                 finally
                 {
-                    Thread.Sleep(60000);
+                    Thread.Sleep(1000 * 60 * 10);
                 }
             }
         }
