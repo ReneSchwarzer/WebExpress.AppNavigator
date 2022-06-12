@@ -138,7 +138,6 @@ namespace WebExpress.AppNavigator.Model
                         }
                         else
                         {
-                            //Applications.AddRange(global.Applications);
                             ApplicationDictionary[application.ToString().ToLower()].Timestamp = DateTime.Now;
                         }
                     }

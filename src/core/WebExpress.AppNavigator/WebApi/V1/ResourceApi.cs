@@ -50,9 +50,9 @@ namespace WebExpress.AppNavigator.WebApi.V1
 
                 foreach (var application in client.Applications)
                 {
-                    if (!ViewModel.ApplicationDictionary.ContainsKey(application.ToString()))
+                    if (!ViewModel.ApplicationDictionary.ContainsKey(application.ToString().ToLower()))
                     {
-                        ViewModel.ApplicationDictionary.Add(application.ToString(), new GlobalApplication()
+                        ViewModel.ApplicationDictionary.Add(application.ToString().ToLower(), new GlobalApplication()
                         {
                             Host = application.Host,
                             Name = application.Name,
@@ -65,7 +65,7 @@ namespace WebExpress.AppNavigator.WebApi.V1
                     }
                     else
                     {
-                        ViewModel.ApplicationDictionary[application.ToString()].Timestamp = DateTime.Now;
+                        ViewModel.ApplicationDictionary[application.ToString().ToLower()].Timestamp = DateTime.Now;
                     }
                 }
             }
