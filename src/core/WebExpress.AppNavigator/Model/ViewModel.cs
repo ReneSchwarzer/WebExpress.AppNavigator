@@ -121,8 +121,6 @@ namespace WebExpress.AppNavigator.Model
             try
             {
                 var json = JsonSerializer.Serialize(api, options);
-                
-                
 
                 request.Content = new StringContent(json);
                 request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
@@ -131,8 +129,6 @@ namespace WebExpress.AppNavigator.Model
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var global = response.Content.ReadFromJsonAsync(typeof(API)).Result as API;
-
-                    
 
                     foreach (var application in global.Applications)
                     {
@@ -152,6 +148,7 @@ namespace WebExpress.AppNavigator.Model
             catch (Exception ex)
             {
                 Context.Log.Exception(ex);
+                Context.Log.Error($"Master: {Settings.Master}");
             }
 
             // Bereinige alte Anwendungen
