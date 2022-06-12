@@ -132,15 +132,22 @@ namespace WebExpress.AppNavigator.Model
 
                     foreach (var application in global.Applications)
                     {
-                        if (!ApplicationDictionary.ContainsKey(application.ToString().ToLower()))
+                        lock (ApplicationDictionary)
                         {
-                            ApplicationDictionary.Add(application.ToString().ToLower(), application);
-                        }
-                        else
-                        {
-                            ApplicationDictionary[application.ToString().ToLower()].Timestamp = DateTime.Now;
+                            if (!ApplicationDictionary.ContainsKey(application.ToString().ToLower()))
+                            {
+                                ApplicationDictionary.Add(application.ToString().ToLower(), application);
+                            }
+                            else
+                            {
+                                ApplicationDictionary[application.ToString().ToLower()].Timestamp = DateTime.Now;
+                            }
                         }
                     }
+                }
+                else
+                {
+                    Context.Log.Error($"Master: {Settings.Master} leifert {response.StatusCode}");
                 }
 
             }
@@ -151,10 +158,13 @@ namespace WebExpress.AppNavigator.Model
             }
 
             // Bereinige alte Anwendungen
-            var toRemove = ApplicationDictionary.Values.Where(x => (DateTime.Now - x.Timestamp).TotalMinutes > 10).ToList();
-            foreach (var v in toRemove)
+            lock (ApplicationDictionary)
             {
-                ApplicationDictionary.Remove(v.ToString());
+                var toRemove = ApplicationDictionary.Values.Where(x => (DateTime.Now - x.Timestamp).TotalMinutes > 10).ToList();
+                foreach (var v in toRemove)
+                {
+                    ApplicationDictionary.Remove(v.ToString().ToLower());
+                }
             }
         }
 

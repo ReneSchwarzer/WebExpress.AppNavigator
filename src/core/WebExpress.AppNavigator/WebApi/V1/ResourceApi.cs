@@ -50,22 +50,26 @@ namespace WebExpress.AppNavigator.WebApi.V1
 
                 foreach (var application in client.Applications)
                 {
-                    if (!ViewModel.ApplicationDictionary.ContainsKey(application.ToString().ToLower()))
+                    lock (ViewModel.ApplicationDictionary)
                     {
-                        ViewModel.ApplicationDictionary.Add(application.ToString().ToLower(), new GlobalApplication()
+                        var key = application.ToString().ToLower();
+                        if (!ViewModel.ApplicationDictionary.ContainsKey(key))
                         {
-                            Host = application.Host,
-                            Name = application.Name,
-                            Icon = application.Icon,
-                            ContextPath = application.ContextPath,
-                            AssetPath = application.AssetPath,
-                            Version = application.Version,
-                            Timestamp = DateTime.Now
-                        });
-                    }
-                    else
-                    {
-                        ViewModel.ApplicationDictionary[application.ToString().ToLower()].Timestamp = DateTime.Now;
+                            ViewModel.ApplicationDictionary.Add(key, new GlobalApplication()
+                            {
+                                Host = application.Host,
+                                Name = application.Name,
+                                Icon = application.Icon,
+                                ContextPath = application.ContextPath,
+                                AssetPath = application.AssetPath,
+                                Version = application.Version,
+                                Timestamp = DateTime.Now
+                            });
+                        }
+                        else
+                        {
+                            ViewModel.ApplicationDictionary[key].Timestamp = DateTime.Now;
+                        }
                     }
                 }
             }
@@ -103,6 +107,7 @@ namespace WebExpress.AppNavigator.WebApi.V1
             };
 
             return api;
+
         }
     }
 }

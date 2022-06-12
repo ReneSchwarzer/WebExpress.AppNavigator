@@ -55,7 +55,7 @@ namespace WebExpres.AppNavigator.WebComponent
                 list.Add(new ControlDropdownItemLink()
                 {
                     Text = v.Name,
-                    Icon = string.IsNullOrWhiteSpace(v.Icon) ? null : new PropertyIcon(new UriAbsolute(v.Host).Append(v.Icon), new PropertySizeIcon(-1, 1, TypeSizeUnit.Em)),
+                    Icon = string.IsNullOrWhiteSpace(v.Icon) ? null : new PropertyIcon(new UriAbsolute(v.Host).Append(v.Icon), new PropertyMaxSizeIcon(1, 1, TypeSizeUnit.Rem)),
                     Uri = new UriAbsolute(v.Host).Append(v.ContextPath)
                 });
             }
