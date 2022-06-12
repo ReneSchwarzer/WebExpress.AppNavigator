@@ -4,16 +4,18 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using WebExpress.Agent.Model;
-using WebExpress.Attribute;
-using WebExpress.Plugin;
+using WebExpress.Message;
+using WebExpress.WebAttribute;
+using WebExpress.WebPlugin;
+using WebExpress.WebResource;
 
-namespace WebExpress.Agent.WebResource
+namespace WebExpress.Agent.WebApi.V1
 {
-    [ID("API")]
-    [Segment("")]
-    [Path("")]
+    [Id("RestAPI1")]
+    [Segment("applications")]
+    [Path("1")]
     [Module("WebExpress.Agent")]
-    public sealed class ResourceApi : WebExpress.WebResource.ResourceApi
+    public sealed class ResourceApi : ResourceRest
     {
         /// <summary>
         /// Konstruktor
@@ -26,30 +28,31 @@ namespace WebExpress.Agent.WebResource
         /// <summary>
         /// Initialisierung
         /// </summary>
-        public override void Initialization()
+        /// <param name="context">Der Kontext</param>
+        public override void Initialization(IResourceContext context)
         {
-            base.Initialization();
+            base.Initialization(context);
         }
 
         /// <summary>
-        /// Verarbeitung
+        /// Verarbeitung des GET-Request
         /// </summary>
-        public override void Process()
+        /// <param name="request">Die Anfrage</param>
+        /// <returns>Eine Aufzählung, welche JsonSerializer serialisiert werden kann.</returns>
+        public override object GetData(Request request)
         {
-            base.Process();
-
-            var plugin = PluginManager.GetPlugin(Context.PluginID);
+            var plugin = PluginManager.GetPlugin(Context.Plugin.PluginId);
 
             // Anfrage 
-            if (Request.Content != null)
+            if (request.Content != null)
             {
-                var client = JsonSerializer.Deserialize(Request.Content, typeof(API)) as API;
+                var client = JsonSerializer.Deserialize(request.Content, typeof(API)) as API;
 
                 foreach (var application in client.Applications)
                 {
-                    if (!ViewModel.Instance.ApplicationDictionary.ContainsKey(application.ToString()))
+                    if (!ViewModel.ApplicationDictionary.ContainsKey(application.ToString()))
                     {
-                        ViewModel.Instance.ApplicationDictionary.Add(application.ToString(), new GlobalApplication()
+                        ViewModel.ApplicationDictionary.Add(application.ToString(), new GlobalApplication()
                         {
                             Host = application.Host,
                             Name = application.Name,
@@ -62,14 +65,14 @@ namespace WebExpress.Agent.WebResource
                     }
                     else
                     {
-                        ViewModel.Instance.ApplicationDictionary[application.ToString()].Timestamp = DateTime.Now;
+                        ViewModel.ApplicationDictionary[application.ToString()].Timestamp = DateTime.Now;
                     }
                 }
             }
 
             var hostName = Dns.GetHostName();
             var hostAdresses = Dns.GetHostAddresses(hostName).Select(x => x.ToString()).ToList();
-            var hostPort = plugin.Host.Port;
+            //var hostPort = plugin.Host.Port;
             var osVersion = Environment.OSVersion.ToString();
             var machineName = Environment.MachineName;
             var processorCount = Environment.ProcessorCount;
@@ -78,7 +81,7 @@ namespace WebExpress.Agent.WebResource
             var framework = RuntimeInformation.FrameworkDescription;
             var time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss:ms");
             var version = PluginManager.Context.Version;
-            var applications = ViewModel.Instance.ApplicationDictionary.Values;
+            var applications = ViewModel.ApplicationDictionary.Values;
 
             var api = new API()
             {
@@ -99,7 +102,7 @@ namespace WebExpress.Agent.WebResource
                 WriteIndented = true
             };
 
-            Content = JsonSerializer.Serialize(api, options);
+            return api;
         }
     }
 }

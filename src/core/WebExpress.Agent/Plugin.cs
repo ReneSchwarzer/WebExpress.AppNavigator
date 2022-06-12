@@ -1,14 +1,14 @@
 ﻿using System.Threading;
 using WebExpress.Agent.Model;
-using WebExpress.Attribute;
-using WebExpress.Plugin;
+using WebExpress.WebAttribute;
+using WebExpress.WebPlugin;
 
 namespace WebExpress.Agent
 {
-    [ID("WebExpress.Agent")]
+    [Id("WebExpress.Agent")]
     [Name("plugin.name")]
     [Description("plugin.description")]
-    [Icon("/assets/img/Agent.png")]
+    [Icon("/assets/img/agent.svg")]
     public sealed class Plugin : IPlugin
     {
         /// <summary>
@@ -24,8 +24,7 @@ namespace WebExpress.Agent
         /// <param name="context">Der Kontext, welcher für die Ausführung des Plugins gilt</param>
         public void Initialization(IPluginContext context)
         {
-            ViewModel.Instance.Context = context;
-            ViewModel.Instance.Initialization();
+
         }
 
         /// <summary>
@@ -33,20 +32,7 @@ namespace WebExpress.Agent
         /// </summary>
         public void Run()
         {
-            Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
-
-            // Loop
-            while (true)
-            {
-                try
-                {
-                    ViewModel.Instance.Update();
-                }
-                finally
-                {
-                    Thread.Sleep(1000 * 60 * 10);
-                }
-            }
+            
         }
 
         /// <summary>

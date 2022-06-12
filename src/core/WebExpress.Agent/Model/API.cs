@@ -15,9 +15,9 @@ namespace WebExpress.Agent.Model
         public IEnumerable<string> HostAdresses { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt den Port
+        /// Liefert oder setzt die Uri des Webservers
         /// </summary>
-        public int HostPort { get; set; }
+        public string Uri { get; set; }
 
         /// <summary>
         /// Liefert oder setzt den Computernamen

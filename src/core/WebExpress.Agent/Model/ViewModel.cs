@@ -10,45 +10,24 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Xml.Serialization;
-using WebExpress.Application;
 using WebExpress.Internationalization;
-using WebExpress.Plugin;
-using WebExpress.Uri;
+using WebExpress.WebApplication;
+using WebExpress.WebModule;
+using WebExpress.WebPlugin;
 
 namespace WebExpress.Agent.Model
 {
     public class ViewModel
     {
         /// <summary>
-        /// Instanz des einzigen Modells
-        /// </summary>
-        private static ViewModel _this = null;
-
-        /// <summary>
-        /// Lifert die einzige Instanz der Modell-Klasse
-        /// </summary>
-        public static ViewModel Instance
-        {
-            get
-            {
-                if (_this == null)
-                {
-                    _this = new ViewModel();
-                }
-
-                return _this;
-            }
-        }
-
-        /// <summary>
         /// Liefert die aktuelle Zeit
         /// </summary>
         public static string Now => DateTime.Now.ToString("dd.MM.yyyy<br>HH:mm:ss");
 
         /// <summary>
-        /// Liefert oder setzt den Verweis auf den Kontext des Plugins
+        /// Liefert oder setzt den Verweis auf den Kontext des Moduls
         /// </summary>
-        public IPluginContext Context { get; set; }
+        public static IModuleContext Context { get; set; }
 
         /// <summary>
         /// Liefert die Programmversion
@@ -57,29 +36,20 @@ namespace WebExpress.Agent.Model
         public static string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         /// <summary>
-        /// Liefert oder setzt die lokal verfügbaren Anwendungen
-        /// </summary>
-        public List<LocalApplication> LocalApplications { get; } = new List<LocalApplication>();
-
-        /// <summary>
         /// Liefert oder setzt die global verfügbaren Anwendungen
+        /// Key=, Value=
         /// </summary>
-        public List<GlobalApplication> GlobalApplications { get; } = new List<GlobalApplication>();
-
-        /// <summary>
-        /// Liefert oder setzt die global verfügbaren Anwendungen
-        /// </summary>
-        public IDictionary<string, GlobalApplication> ApplicationDictionary { get; } = new Dictionary<string, GlobalApplication>();
+        public static IDictionary<string, GlobalApplication> ApplicationDictionary { get; } = new Dictionary<string, GlobalApplication>();
 
         /// <summary>
         /// Liefert oder setzt die Settings
         /// </summary>
-        public Settings Settings { get; private set; } = new Settings();
+        public static Settings Settings { get; private set; } = new Settings();
 
         /// <summary>
         /// Liefert den HttpClient für Rest-API-Abfragen
         /// </summary>
-        private HttpClient Client { get; } = new HttpClient();
+        private static HttpClient Client { get; } = new HttpClient();
 
         /// <summary>
         /// Konstruktor
@@ -91,33 +61,22 @@ namespace WebExpress.Agent.Model
         /// <summary>
         /// Initialisierung
         /// </summary>
-        public void Initialization()
+        public static void Initialization()
         {
             LoadSettings();
-
-            foreach (var v in ApplicationManager.GetApplcations().Where(x => !x.ApplicationID.StartsWith("webexpress", System.StringComparison.OrdinalIgnoreCase)))
-            {
-                LocalApplications.Add(new LocalApplication
-                {
-                    Name = InternationalizationManager.I18N(InternationalizationManager.DefaultCulture, v.PluginID, v.ApplicationName),
-                    Icon = Context.Host.Uri.Append(v.Icon.ToString()),
-                    ContextPath = v.ContextPath?.ToString(),
-                    AssetPath = v.AssetPath
-                });
-            }
         }
 
         /// <summary>
         /// Updatefunktion
         /// </summary>
-        public virtual void Update()
+        public static void Update()
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, Settings.Agent);
+            var request = new HttpRequestMessage(HttpMethod.Get, Settings.Agent);
             var options = new JsonSerializerOptions { WriteIndented = true };
 
             var hostName = Dns.GetHostName();
             var hostAdresses = Dns.GetHostAddresses(hostName).Select(x => x.ToString()).ToList();
-            var hostPort = Context.Host.Port;
+            var hostUri = Context.Plugin.Host.Uri ?? Context.Plugin.Host.Endpoints.FirstOrDefault()?.Uri;
             var osVersion = Environment.OSVersion.ToString();
             var machineName = Environment.MachineName;
             var processorCount = Environment.ProcessorCount;
@@ -126,13 +85,21 @@ namespace WebExpress.Agent.Model
             var framework = RuntimeInformation.FrameworkDescription;
             var time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss:ms");
             var version = PluginManager.Context.Version;
-            var applications = ViewModel.Instance.LocalApplications;
+            var applications = ApplicationManager.GetApplcations()
+                    .Where(x => !x.ApplicationID.StartsWith("webexpress", StringComparison.OrdinalIgnoreCase))
+                    .Select(x => new LocalApplication
+                    {
+                        Name = InternationalizationManager.I18N(InternationalizationManager.DefaultCulture, x.Plugin.PluginId, x.ApplicationName),
+                        Icon = Context.Plugin.Host.ContextPath.Append(x.Icon.ToString()),
+                        ContextPath = x.ContextPath?.ToString(),
+                        AssetPath = x.AssetPath
+                    });
 
             var api = new API()
             {
                 HostName = hostName,
                 HostAdresses = hostAdresses,
-                HostPort = hostPort,
+                Uri = hostUri,
                 OSVersion = osVersion,
                 MachineName = machineName,
                 ProcessorCount = processorCount,
@@ -142,7 +109,7 @@ namespace WebExpress.Agent.Model
                 Time = time,
                 Applications = applications.Select(x => new GlobalApplication()
                 {
-                    Host = Context.Host.Uri?.ToString(),
+                    Host = hostUri,
                     Name = x.Name,
                     Icon = x.Icon.ToString(),
                     AssetPath = x.AssetPath,
@@ -163,11 +130,21 @@ namespace WebExpress.Agent.Model
                 {
                     var global = response.Content.ReadFromJsonAsync(typeof(API)).Result as API;
 
-                    GlobalApplications.Clear();
-                    GlobalApplications.AddRange(global.Applications);
+                    foreach (var application in global.Applications)
+                    {
+                        if (!ApplicationDictionary.ContainsKey(application.ToString().ToLower()))
+                        {
+                            ApplicationDictionary.Add(application.ToString().ToLower(), application);
+                        }
+                        else
+                        {
+                            //Applications.AddRange(global.Applications);
+                            ApplicationDictionary[application.ToString().ToLower()].Timestamp = DateTime.Now;
+                        }
+                    }
                 }
 
-            } 
+            }
             catch
             {
 
@@ -184,14 +161,14 @@ namespace WebExpress.Agent.Model
         /// <summary>
         /// Wird aufgerufen, wenn die Einstellungen geladen werden sollen
         /// </summary>
-        public void LoadSettings()
+        public static void LoadSettings()
         {
             // Konfiguration laden
             var serializer = new XmlSerializer(typeof(Settings));
 
             try
             {
-                using var reader = File.OpenText(Path.Combine(Context.Host.ConfigPath, "agent.settings.xml"));
+                using var reader = File.OpenText(Path.Combine(Context.Plugin.Host.ConfigPath, "agent.settings.xml"));
                 Settings = serializer.Deserialize(reader) as Settings;
             }
             catch

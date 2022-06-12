@@ -1,3 +1,6 @@
 ﻿# Englisch
 plugin.name=Plugin WebExpress.Agent
 plugin.description=Monitoring and coordination of WebExpress.
+
+module.name=WebExpress.Agent
+module.description=Monitoring and coordination of WebExpress.

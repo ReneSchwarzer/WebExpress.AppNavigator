@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebExpress.Attribute;
-using WebExpress.Module;
+﻿using System.Threading;
+using WebExpress.Agent.Model;
+using WebExpress.WebAttribute;
+using WebExpress.WebModule;
 
 namespace WebExpress.Agent
 {
-    [ID("WebExpress.Agent")]
-    [Application("WebExpress.Agent")]
+    [Id("WebExpress.Agent")]
+    [Application("*")]
+    [Name("module.name")]
+    [Description("module.description")]
+    [Icon("/assets/img/agent.svg")]
+    [AssetPath("/")]
+    [ContextPath("/wxagent")]
     public sealed class Module : IModule
     {
         /// <summary>
@@ -25,6 +27,8 @@ namespace WebExpress.Agent
         /// <param name="context">Der Kontext, welcher für die Ausführung des Plugins gilt</param>
         public void Initialization(IModuleContext context)
         {
+            ViewModel.Context = context;
+            ViewModel.Initialization();
         }
 
         /// <summary>
@@ -32,7 +36,20 @@ namespace WebExpress.Agent
         /// </summary>
         public void Run()
         {
+            Thread.CurrentThread.Priority = ThreadPriority.BelowNormal;
 
+            // Loop
+            while (true)
+            {
+                try
+                {
+                    ViewModel.Update();
+                }
+                finally
+                {
+                    Thread.Sleep(1000 * 60 * 10);
+                }
+            }
         }
 
         /// <summary>
