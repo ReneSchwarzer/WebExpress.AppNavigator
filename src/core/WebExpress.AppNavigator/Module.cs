@@ -15,6 +15,11 @@ namespace WebExpress.AppNavigator
     public sealed class Module : IModule
     {
         /// <summary>
+        /// BEstimmt, ob der Webserver läuft
+        /// </summary>
+        private bool IsStarted { get; set; } = false;
+
+        /// <summary>
         /// Konstruktor
         /// </summary>
         public Module()
@@ -29,6 +34,11 @@ namespace WebExpress.AppNavigator
         {
             ViewModel.Context = context;
             ViewModel.Initialization();
+
+            context.Plugin.Host.Host.Started += (s, e) =>
+            {
+                IsStarted = true;
+            };
         }
 
         /// <summary>
@@ -41,13 +51,20 @@ namespace WebExpress.AppNavigator
             // Loop
             while (true)
             {
-                try
+                if (IsStarted)
                 {
-                    ViewModel.Update();
+                    try
+                    {
+                        ViewModel.Update();
+                    }
+                    finally
+                    {
+                        Thread.Sleep(1000 * 60 * 10);
+                    }
                 }
-                finally
+                else
                 {
-                    Thread.Sleep(1000 * 60 * 10);
+                    Thread.Sleep(1000 * 10);
                 }
             }
         }
