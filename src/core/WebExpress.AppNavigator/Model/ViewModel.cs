@@ -15,7 +15,7 @@ using WebExpress.WebApplication;
 using WebExpress.WebModule;
 using WebExpress.WebPlugin;
 
-namespace WebExpress.Agent.Model
+namespace WebExpress.AppNavigator.Model
 {
     public class ViewModel
     {
@@ -71,7 +71,7 @@ namespace WebExpress.Agent.Model
         /// </summary>
         public static void Update()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, Settings.Agent);
+            var request = new HttpRequestMessage(HttpMethod.Get, Settings.Master);
             var options = new JsonSerializerOptions { WriteIndented = true };
 
             var hostName = Dns.GetHostName();
@@ -132,7 +132,7 @@ namespace WebExpress.Agent.Model
                 {
                     var global = response.Content.ReadFromJsonAsync(typeof(API)).Result as API;
 
-                    Context.Log.Info("Anfrage an Agent erfolgreich: " + global);
+                    
 
                     foreach (var application in global.Applications)
                     {
@@ -149,9 +149,9 @@ namespace WebExpress.Agent.Model
                 }
 
             }
-            catch
+            catch (Exception ex)
             {
-
+                Context.Log.Exception(ex);
             }
 
             // Bereinige alte Anwendungen
@@ -172,7 +172,7 @@ namespace WebExpress.Agent.Model
 
             try
             {
-                using var reader = File.OpenText(Path.Combine(Context.Plugin.Host.ConfigPath, "agent.settings.xml"));
+                using var reader = File.OpenText(Path.Combine(Context.Plugin.Host.ConfigPath, "appnavigator.settings.xml"));
                 Settings = serializer.Deserialize(reader) as Settings;
             }
             catch

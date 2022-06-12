@@ -3,18 +3,18 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using WebExpress.Agent.Model;
+using WebExpress.AppNavigator.Model;
 using WebExpress.Message;
 using WebExpress.WebAttribute;
 using WebExpress.WebPlugin;
 using WebExpress.WebResource;
 
-namespace WebExpress.Agent.WebApi.V1
+namespace WebExpress.AppNavigator.WebApi.V1
 {
     [Id("RestAPI1")]
     [Segment("applications")]
     [Path("1")]
-    [Module("WebExpress.Agent")]
+    [Module("WebExpress.AppNavigator")]
     public sealed class ResourceApi : ResourceRest
     {
         /// <summary>

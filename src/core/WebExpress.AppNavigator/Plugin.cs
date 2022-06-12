@@ -1,14 +1,14 @@
 ﻿using System.Threading;
-using WebExpress.Agent.Model;
+using WebExpress.AppNavigator.Model;
 using WebExpress.WebAttribute;
 using WebExpress.WebPlugin;
 
-namespace WebExpress.Agent
+namespace WebExpress.AppNavigator
 {
-    [Id("WebExpress.Agent")]
+    [Id("WebExpress.AppNavigator")]
     [Name("plugin.name")]
     [Description("plugin.description")]
-    [Icon("/assets/img/agent.svg")]
+    [Icon("/assets/img/appnavigator.svg")]
     public sealed class Plugin : IPlugin
     {
         /// <summary>

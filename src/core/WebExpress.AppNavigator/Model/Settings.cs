@@ -1,15 +1,15 @@
 ﻿using System.Xml.Serialization;
 
-namespace WebExpress.Agent.Model
+namespace WebExpress.AppNavigator.Model
 {
     [XmlRoot(ElementName = "settings", IsNullable = false)]
     public class Settings
     {
         /// <summary>
-        /// Liefert oder setzt die Url des Agenten
+        /// Liefert oder setzt die Url des Master
         /// </summary>
-        [XmlElement("agent")]
-        public string Agent { get; set; }
+        [XmlElement("master")]
+        public string Master { get; set; }
 
     }
 }

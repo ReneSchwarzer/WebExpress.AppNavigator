@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebExpress.Agent.Model
+namespace WebExpress.AppNavigator.Model
 {
     public class API
     {

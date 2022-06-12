@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebExpress.Agent.Model;
+using WebExpress.AppNavigator.Model;
 using WebExpress.UI.WebAttribute;
 using WebExpress.UI.WebComponent;
 using WebExpress.UI.WebControl;
@@ -9,7 +9,7 @@ using WebExpress.WebApp.WebComponent;
 using WebExpress.WebAttribute;
 using WebExpress.WebPage;
 
-namespace WebExpres.Agent.WebComponent
+namespace WebExpres.AppNavigator.WebComponent
 {
     [Section(Section.AppPrimary)]
     [Application("*")]

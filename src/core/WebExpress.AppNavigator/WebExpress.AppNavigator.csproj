@@ -6,7 +6,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Authors>Rene_Schwarzer@hotmail.de</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/ReneSchwarzer/WebExpressAgent.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ReneSchwarzer/WebExpress.AppNavigator.git</RepositoryUrl>
     <Product>WebExpress.AppNavigator</Product>
   </PropertyGroup>
 

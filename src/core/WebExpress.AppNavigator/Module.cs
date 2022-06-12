@@ -1,11 +1,11 @@
 ﻿using System.Threading;
-using WebExpress.Agent.Model;
+using WebExpress.AppNavigator.Model;
 using WebExpress.WebAttribute;
 using WebExpress.WebModule;
 
-namespace WebExpress.Agent
+namespace WebExpress.AppNavigator
 {
-    [Id("WebExpress.Agent")]
+    [Id("WebExpress.AppNavigator")]
     [Application("*")]
     [Name("module.name")]
     [Description("module.description")]

@@ -1,6 +1,6 @@
 ﻿using WebExpress.Uri;
 
-namespace WebExpress.Agent.Model
+namespace WebExpress.AppNavigator.Model
 {
     public class LocalApplication
     {

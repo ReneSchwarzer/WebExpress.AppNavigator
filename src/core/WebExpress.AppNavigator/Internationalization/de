@@ -1,6 +1,6 @@
 ﻿# Deutsch
-plugin.name=Plugin WebExpress.Agent
+plugin.name=Plugin WebExpress.AppNavigator
 plugin.description=Überwachung und Koordinierung von WebExpress
 
-module.name=WebExpress.Agent
+module.name=WebExpress.AppNavigator
 module.description=Überwachung und Koordinierung von WebExpress

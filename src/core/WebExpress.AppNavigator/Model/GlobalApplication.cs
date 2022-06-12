@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebExpress.Agent.Model
+namespace WebExpress.AppNavigator.Model
 {
     public class GlobalApplication
     {
