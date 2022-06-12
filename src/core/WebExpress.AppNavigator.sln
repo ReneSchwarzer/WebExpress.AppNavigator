@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29519.181
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress", "..\..\..\WebExpress\core\WebExpress\WebExpress.csproj", "{46D23D25-5773-4693-B3C2-728D3D3BB4FF}"
 EndProject
@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.UI", "..\..\..\W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.App", "..\..\..\WebExpress\core\WebExpress.App\WebExpress.App.csproj", "{73B383B7-D483-484B-B6BA-E440714CF5F7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.Agent", "WebExpress.Agent\WebExpress.Agent.csproj", "{82DE3F64-2A13-49D2-90DB-EB9DBF5E1DF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.AppNavigator", "WebExpress.Agent\WebExpress.AppNavigator.csproj", "{82DE3F64-2A13-49D2-90DB-EB9DBF5E1DF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.WebApp", "..\..\..\WebExpress\core\WebExpress.WebApp\WebExpress.WebApp.csproj", "{30B00EC8-3C77-4F37-84AA-1428892B2E38}"
 EndProject

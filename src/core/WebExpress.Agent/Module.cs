@@ -9,9 +9,9 @@ namespace WebExpress.Agent
     [Application("*")]
     [Name("module.name")]
     [Description("module.description")]
-    [Icon("/assets/img/agent.svg")]
+    [Icon("/assets/img/appnavigator.svg")]
     [AssetPath("/")]
-    [ContextPath("/wxagent")]
+    [ContextPath("/wxappnavigator")]
     public sealed class Module : IModule
     {
         /// <summary>
