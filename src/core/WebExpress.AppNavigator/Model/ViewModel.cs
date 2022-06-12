@@ -118,13 +118,11 @@ namespace WebExpress.Agent.Model
                 })
             };
 
-            Context.Log.Error("Anfrage an Agent: ");
-
             try
             {
                 var json = JsonSerializer.Serialize(api, options);
                 
-                Context.Log.Info("Anfrage an Agent: " + json);
+                
 
                 request.Content = new StringContent(json);
                 request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
@@ -133,6 +131,8 @@ namespace WebExpress.Agent.Model
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var global = response.Content.ReadFromJsonAsync(typeof(API)).Result as API;
+
+                    Context.Log.Info("Anfrage an Agent erfolgreich: " + global);
 
                     foreach (var application in global.Applications)
                     {

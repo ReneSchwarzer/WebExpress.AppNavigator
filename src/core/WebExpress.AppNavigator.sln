@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.UI", "..\..\..\W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.App", "..\..\..\WebExpress\core\WebExpress.App\WebExpress.App.csproj", "{73B383B7-D483-484B-B6BA-E440714CF5F7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.AppNavigator", "WebExpress.Agent\WebExpress.AppNavigator.csproj", "{82DE3F64-2A13-49D2-90DB-EB9DBF5E1DF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.AppNavigator", "WebExpress.AppNavigator\WebExpress.AppNavigator.csproj", "{82DE3F64-2A13-49D2-90DB-EB9DBF5E1DF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebExpress.WebApp", "..\..\..\WebExpress\core\WebExpress.WebApp\WebExpress.WebApp.csproj", "{30B00EC8-3C77-4F37-84AA-1428892B2E38}"
 EndProject
