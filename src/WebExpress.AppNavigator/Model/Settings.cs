@@ -6,7 +6,7 @@ namespace WebExpress.AppNavigator.Model
     public class Settings
     {
         /// <summary>
-        /// Liefert oder setzt die Url des Master
+        /// Returns or sets the uri of the master.
         /// </summary>
         [XmlElement("master")]
         public string Master { get; set; }

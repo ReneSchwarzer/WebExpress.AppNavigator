@@ -1,17 +1,18 @@
 # Agent
-Sammelung und Anzeige von WebExpress-Anwendungen.
+Collection and display of WebExpress applications.
 
-# Beschreibung
-Die Software sammelt Informationen der WebExpress-Anwendungen und tauscht diese Informationen mit anderen WebExpress-Anwendungen aus.
+# Description
+The software collects information from the WebExpress applications and exchanges this information with other WebExpress applications.
 
-# Plattform
-WebExpress.AppNavigator ist ein Modul für WebExpress-Anendungen.
+# Platform
+WebExpress.AppNavigator is a module for WebExpress applications.
 
-#Verwendete Bibliotheken
-https://github.com/dotnet/core (MIT)
+# Libraries used
+- https://github.com/dotnet/core (MIT)
 
-# Einrichtung 
-siehe https://github.com/ReneSchwarzer/WebExpress/blob/master/doc/Anwenderhandbuch.docx
+# Install 
+see https://github.com/ReneSchwarzer/WebExpress/blob/master/doc/installation_guide.md and https://github.com/ReneSchwarzer/WebExpress/blob/master/doc/development_guide.md
 
-#Stichwörter
+#Tags
 #Raspberry #Raspbian #IoT #NETCore #WebExpress
+

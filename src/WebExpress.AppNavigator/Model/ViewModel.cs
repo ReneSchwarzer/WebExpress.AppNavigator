@@ -11,55 +11,54 @@ using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Xml.Serialization;
 using WebExpress.Internationalization;
-using WebExpress.WebApplication;
+using WebExpress.WebComponent;
 using WebExpress.WebModule;
-using WebExpress.WebPlugin;
 
 namespace WebExpress.AppNavigator.Model
 {
     public class ViewModel
     {
         /// <summary>
-        /// Liefert die aktuelle Zeit
+        /// Returns the current time.
         /// </summary>
         public static string Now => DateTime.Now.ToString("dd.MM.yyyy<br>HH:mm:ss");
 
         /// <summary>
-        /// Liefert oder setzt den Verweis auf den Kontext des Moduls
+        /// Returns or sets the reference to the context of the module.
         /// </summary>
-        public static IModuleContext Context { get; set; }
+        public static IModuleContext MuduleContext { get; set; }
 
         /// <summary>
-        /// Liefert die Programmversion
+        /// Returns the program version.
         /// </summary>
         [XmlIgnore]
         public static string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         /// <summary>
-        /// Liefert oder setzt die global verfügbaren Anwendungen
+        /// Returns the globally available applications.
         /// Key=, Value=
         /// </summary>
         public static IDictionary<string, GlobalApplication> ApplicationDictionary { get; } = new Dictionary<string, GlobalApplication>();
 
         /// <summary>
-        /// Liefert oder setzt die Settings
+        /// Returns the settings.
         /// </summary>
         public static Settings Settings { get; private set; } = new Settings();
 
         /// <summary>
-        /// Liefert den HttpClient für Rest-API-Abfragen
+        /// Returns the HttpClient for rest api queries.
         /// </summary>
         private static HttpClient Client { get; } = new HttpClient();
 
         /// <summary>
-        /// Konstruktor
+        /// Constructor
         /// </summary>
         private ViewModel()
         {
         }
 
         /// <summary>
-        /// Initialisierung
+        /// Initialization
         /// </summary>
         public static void Initialization()
         {
@@ -67,7 +66,7 @@ namespace WebExpress.AppNavigator.Model
         }
 
         /// <summary>
-        /// Updatefunktion
+        /// Update function
         /// </summary>
         public static void Update()
         {
@@ -76,7 +75,7 @@ namespace WebExpress.AppNavigator.Model
 
             var hostName = Dns.GetHostName();
             var hostAdresses = Dns.GetHostAddresses(hostName).Select(x => x.ToString()).ToList();
-            var hostUri = Context.Plugin.Host.Uri ?? Context.Plugin.Host.Endpoints.FirstOrDefault()?.Uri;
+            var hostUri = MuduleContext.PluginContext.Host.Uri ?? MuduleContext.PluginContext.Host.Endpoints.FirstOrDefault()?.Uri;
             var osVersion = Environment.OSVersion.ToString();
             var machineName = Environment.MachineName;
             var processorCount = Environment.ProcessorCount;
@@ -84,13 +83,13 @@ namespace WebExpress.AppNavigator.Model
             var os = RuntimeInformation.OSDescription;
             var framework = RuntimeInformation.FrameworkDescription;
             var time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss:ms");
-            var version = PluginManager.Context.Version;
-            var applications = ApplicationManager.GetApplcations()
-                    .Where(x => !x.ApplicationID.StartsWith("webexpress", StringComparison.OrdinalIgnoreCase))
+            var version = ComponentManager.PluginManager.HttpServerContext.Version;
+            var applications = ComponentManager.ApplicationManager.Applications
+                    .Where(x => !x.ApplicationId.StartsWith("webexpress", StringComparison.OrdinalIgnoreCase))
                     .Select(x => new LocalApplication
                     {
-                        Name = InternationalizationManager.I18N(InternationalizationManager.DefaultCulture, x.Plugin.PluginId, x.ApplicationName),
-                        Icon = Context.Plugin.Host.ContextPath.Append(x.Icon.ToString()),
+                        Name = InternationalizationManager.I18N(InternationalizationManager.DefaultCulture, x.PluginContext.PluginId, x.ApplicationName),
+                        Icon = MuduleContext.PluginContext.Host.ContextPath.Append(x.Icon.ToString()),
                         ContextPath = x.ContextPath?.ToString(),
                         AssetPath = x.AssetPath
                     });
@@ -147,17 +146,17 @@ namespace WebExpress.AppNavigator.Model
                 }
                 else
                 {
-                    Context.Log.Error($"Master: {Settings.Master} leifert {response.StatusCode}");
+                    MuduleContext.PluginContext.Host.Log.Error($"Master: {Settings.Master} get {response.StatusCode}");
                 }
 
             }
             catch (Exception ex)
             {
-                Context.Log.Exception(ex);
-                Context.Log.Error($"Master: {Settings.Master}");
+                MuduleContext.PluginContext.Host.Log.Exception(ex);
+                MuduleContext.PluginContext.Host.Log.Error($"Master: {Settings.Master}");
             }
 
-            // Bereinige alte Anwendungen
+            // clean up old applications
             lock (ApplicationDictionary)
             {
                 var toRemove = ApplicationDictionary.Values.Where(x => (DateTime.Now - x.Timestamp).TotalMinutes > 10).ToList();
@@ -169,7 +168,7 @@ namespace WebExpress.AppNavigator.Model
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn die Einstellungen geladen werden sollen
+        /// Invoked when the settings are to be loaded.
         /// </summary>
         public static void LoadSettings()
         {
@@ -178,12 +177,12 @@ namespace WebExpress.AppNavigator.Model
 
             try
             {
-                using var reader = File.OpenText(Path.Combine(Context.Plugin.Host.ConfigPath, "appnavigator.settings.xml"));
+                using var reader = File.OpenText(Path.Combine(MuduleContext.PluginContext.Host.ConfigPath, "appnavigator.settings.xml"));
                 Settings = serializer.Deserialize(reader) as Settings;
             }
             catch
             {
-                Context.Log.Error("Datei mit den Einstellungen wurde nicht gefunden!");
+                MuduleContext.PluginContext.Host.Log.Error("File with the settings was not found!");
             }
         }
     }

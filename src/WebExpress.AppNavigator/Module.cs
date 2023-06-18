@@ -5,7 +5,6 @@ using WebExpress.WebModule;
 
 namespace WebExpress.AppNavigator
 {
-    [Id("WebExpress.AppNavigator")]
     [Application("*")]
     [Name("module.name")]
     [Description("module.description")]
@@ -15,34 +14,34 @@ namespace WebExpress.AppNavigator
     public sealed class Module : IModule
     {
         /// <summary>
-        /// BEstimmt, ob der Webserver läuft
+        /// Determines whether the web server is running.
         /// </summary>
         private bool IsStarted { get; set; } = false;
 
         /// <summary>
-        /// Konstruktor
+        /// Constructor
         /// </summary>
         public Module()
         {
         }
 
         /// <summary>
-        /// Initialisierung des Moduls. Hier können z.B. verwaltete Ressourcen geladen werden. 
+        /// Initialization of the module. Here, for example, managed resources can be loaded. 
         /// </summary>
-        /// <param name="context">Der Kontext, welcher für die Ausführung des Plugins gilt</param>
+        /// <param name="context">The context that applies to the execution of the plugin.</param>
         public void Initialization(IModuleContext context)
         {
-            ViewModel.Context = context;
+            ViewModel.MuduleContext = context;
             ViewModel.Initialization();
 
-            context.Plugin.Host.Host.Started += (s, e) =>
+            context.PluginContext.Host.Host.Started += (s, e) =>
             {
                 IsStarted = true;
             };
         }
 
         /// <summary>
-        /// Wird aufgerufen, wenn das Modul mit der Arbeit beginnt. Der Aufruf erfolgt nebenläufig.
+        /// Invoked when the module starts working. The call is concurrent.
         /// </summary>
         public void Run()
         {
@@ -70,7 +69,7 @@ namespace WebExpress.AppNavigator
         }
 
         /// <summary>
-        /// Freigeben von nicht verwalteten Ressourcen, welche wärend der Verwendung reserviert wurden.
+        /// Release unmanaged resources that have been reserved during use.
         /// </summary>
         public void Dispose()
         {

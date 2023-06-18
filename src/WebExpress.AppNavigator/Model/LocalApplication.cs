@@ -1,31 +1,31 @@
-﻿using WebExpress.Uri;
+﻿using WebExpress.WebUri;
 
 namespace WebExpress.AppNavigator.Model
 {
     public class LocalApplication
     {
         /// <summary>
-        /// Liefert oder setzt den Namen
+        /// Returns or sets the name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt die BasisUrl
+        /// Returns or sets the base uri.
         /// </summary>
         public string ContextPath { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt die Icon
+        /// Returns or sets the icon.
         /// </summary>
-        public IUri Icon { get; set; }
+        public UriResource Icon { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt die Version des Plugins
+        /// Returns or sets the version of the plugin.
         /// </summary>
         public string Version { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt den Asset-Pfad
+        /// Returns or sets the asset path.
         /// </summary>
         public string AssetPath { get; set; }
     }

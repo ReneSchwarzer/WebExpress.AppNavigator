@@ -2,50 +2,45 @@
 using System.Linq;
 using WebExpress.AppNavigator.Model;
 using WebExpress.UI.WebAttribute;
-using WebExpress.UI.WebComponent;
 using WebExpress.UI.WebControl;
-using WebExpress.Uri;
-using WebExpress.WebApp.WebComponent;
+using WebExpress.UI.WebFragment;
+using WebExpress.WebApp.WebFragment;
 using WebExpress.WebAttribute;
 using WebExpress.WebPage;
 
-namespace WebExpres.AppNavigator.WebComponent
+namespace WebExpres.AppNavigator.WebFragment
 {
     [Section(Section.AppPrimary)]
     [Application("*")]
-    [Context("general")]
-    public sealed class ComponentAppNavigator : IComponentDynamic
+    public sealed class ComponentAppNavigator : IFragmentDynamic
     {
         /// <summary>
-        /// Liefert der Kontext
+        /// Returns the context.
         /// </summary>
-        public IComponentContext Context { get; private set; }
-
-        
+        public IFragmentContext Context { get; private set; }
 
         /// <summary>
-        /// Konstruktor
+        /// Constructor
         /// </summary>
-        /// 
         public ComponentAppNavigator()
             : base()
         {
         }
 
         /// <summary>
-        /// Initialisierung
+        /// Initialization.
         /// </summary>
-        /// <param name="context">Der Kontext</param>
-        /// <param name="page">Die Seite, indem die Komonente aktiv ist</param>
-        public void Initialization(IComponentContext context, IPage page)
+        /// <param name="context">The context.</param>
+        /// <param name="page">The page where the fragment is active.</param>
+        public void Initialization(IFragmentContext context, IPage page)
         {
             Context = context;
         }
 
         /// <summary>
-        /// Erstellt Komponenten eines gemeinsammen Typs T
+        /// Creates a fragment of a common type T.
         /// </summary>
-        /// <returns>Die erzeugten Steuerelement</returns>
+        /// <returns>The control that was created.</returns>
         public IEnumerable<T> Create<T>() where T : IControl
         {
             var list = new List<IControl>();
@@ -55,8 +50,8 @@ namespace WebExpres.AppNavigator.WebComponent
                 list.Add(new ControlDropdownItemLink()
                 {
                     Text = v.Name,
-                    Icon = string.IsNullOrWhiteSpace(v.Icon) ? null : new PropertyIcon(new UriAbsolute(v.Host).Append(v.Icon), new PropertyMaxSizeIcon(1, 1, TypeSizeUnit.Rem)),
-                    Uri = new UriAbsolute(v.Host).Append(v.ContextPath)
+                    Icon = string.IsNullOrWhiteSpace(v.Icon) ? null : new PropertyIcon(v.Icon, new PropertyMaxSizeIcon(1, 1, TypeSizeUnit.Rem)),
+                    Uri = v.ContextPath
                 });
             }
 

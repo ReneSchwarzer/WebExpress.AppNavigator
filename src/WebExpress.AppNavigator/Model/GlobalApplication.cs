@@ -5,44 +5,44 @@ namespace WebExpress.AppNavigator.Model
     public class GlobalApplication
     {
         /// <summary>
-        /// Liefert oder setzt den Namen
+        /// Returns or sets the name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt die Host-URL
+        /// Returns or sets the host uri.
         /// </summary>
         public string Host { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt die BasisUrl
+        /// Returns or sets the base uri.
         /// </summary>
         public string ContextPath { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt die Icon
+        /// Returns or sets the icon.
         /// </summary>
         public string Icon { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt die Version des Plugins
+        /// Returns or sets the version of the plugin.
         /// </summary>
         public string Version { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt den Asset-Pfad
+        /// Returns or sets the asset path.
         /// </summary>
         public string AssetPath { get; set; }
 
         /// <summary>
-        /// Liefert oder setzt den Zeitstempel des letzten Zugriffs
+        /// Returns or sets the timestamp of the last access.
         /// </summary>
         public DateTime Timestamp { get; set; }
 
         /// <summary>
-        /// Umwandlung des Objektes in seine Stringform
+        /// Conversion of the object into its string form.
         /// </summary>
-        /// <returns>Das Objekt in Stringform</returns>
+        /// <returns>The object as a string.</returns>
         public override string ToString()
         {
             return $"{Host}{ContextPath}";

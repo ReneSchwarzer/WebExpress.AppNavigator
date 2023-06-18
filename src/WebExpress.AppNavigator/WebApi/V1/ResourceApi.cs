@@ -4,21 +4,20 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using WebExpress.AppNavigator.Model;
-using WebExpress.Message;
 using WebExpress.WebAttribute;
-using WebExpress.WebPlugin;
+using WebExpress.WebComponent;
+using WebExpress.WebMessage;
 using WebExpress.WebResource;
 
 namespace WebExpress.AppNavigator.WebApi.V1
 {
-    [Id("RestAPI1")]
     [Segment("applications")]
-    [Path("1")]
-    [Module("WebExpress.AppNavigator")]
+    [ContextPath("1")]
+    [Module<Module>]
     public sealed class ResourceApi : ResourceRest
     {
         /// <summary>
-        /// Konstruktor
+        /// Constructor
         /// </summary>
         public ResourceApi()
             : base()
@@ -26,24 +25,24 @@ namespace WebExpress.AppNavigator.WebApi.V1
         }
 
         /// <summary>
-        /// Initialisierung
+        /// The initialization.
         /// </summary>
-        /// <param name="context">Der Kontext</param>
+        /// <param name="context">The context.</param>
         public override void Initialization(IResourceContext context)
         {
             base.Initialization(context);
         }
 
         /// <summary>
-        /// Verarbeitung des GET-Request
+        /// Processing of the get request.
         /// </summary>
-        /// <param name="request">Die Anfrage</param>
-        /// <returns>Eine Aufzählung, welche JsonSerializer serialisiert werden kann.</returns>
+        /// <param name="request">The request.</param>
+        /// <returns>An enumeration that can be serialized by JsonSerializer.</returns>
         public override object GetData(Request request)
         {
-            var plugin = PluginManager.GetPlugin(Context.Plugin.PluginId);
+            var plugin = ComponentManager.PluginManager.GetPlugin(ResourceContext.PluginContext.PluginId);
 
-            // Anfrage 
+            // request 
             if (request.Content != null)
             {
                 var client = JsonSerializer.Deserialize(request.Content, typeof(API)) as API;
@@ -84,7 +83,7 @@ namespace WebExpress.AppNavigator.WebApi.V1
             var os = RuntimeInformation.OSDescription;
             var framework = RuntimeInformation.FrameworkDescription;
             var time = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss:ms");
-            var version = PluginManager.Context.Version;
+            var version = ComponentManager.PluginManager.HttpServerContext.Version;
             var applications = ViewModel.ApplicationDictionary.Values;
 
             var api = new API()
